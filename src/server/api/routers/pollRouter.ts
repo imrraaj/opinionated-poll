@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
-import { TRPCError } from '@trpc/server';
 
 
 export const pollRouter = createTRPCRouter({
@@ -27,7 +26,7 @@ export const pollRouter = createTRPCRouter({
 
   getPollsByIdCreatedByUser: protectedProcedure.input(String).query(async ({ ctx, input }) => {
 
-    let poll = await ctx.prisma.poll.findFirst({
+    const poll = await ctx.prisma.poll.findFirst({
       select: {
         question: true,
         id: true,
@@ -46,7 +45,7 @@ export const pollRouter = createTRPCRouter({
   }),
 
   getResultsForPoll: publicProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) => {
-    let poll = await ctx.prisma.poll.findFirst({
+    const poll = await ctx.prisma.poll.findFirst({
       select: {
         question: true,
         id: true,
@@ -133,7 +132,7 @@ export const pollRouter = createTRPCRouter({
 
 
   upvote: protectedProcedure
-    .input(z.object({ pollId: z.string(), optId: z.string() }))
+    .input(z.object({ pollId: z.string(), optId: z.number() }))
     .mutation(async ({ ctx, input }) => {
 
       // find if the owner is polling and cancel it 

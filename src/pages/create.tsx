@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Formik, Form } from "formik";
 import { FiPlus, FiX } from "react-icons/fi";
 import { api } from "../utils/api";
-import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
 
@@ -13,22 +12,17 @@ interface Poll {
   options: string[];
 }
 const Create: NextPage = () => {
-  const router = useRouter();
-
   const { mutate: addMutation } = api.poll.addPoll.useMutation();
   const onSubmit = (data: Poll) => {
     const id = toast.loading("Creating poll...");
-    console.log(data.question);
     addMutation(
       {
         question: data.question,
         options: data.options,
       },
       {
-        onSuccess(data) {
+        onSuccess() {
           toast.success("Poll created successfully!", { id });
-          console.log(data.pollQuestion.id);
-          router.push("/poll/result/" + data.pollQuestion.id);
         },
         onError() {
           toast.error("Failed to create a poll", { id });
@@ -80,10 +74,9 @@ const PollForm = ({ onSubmit = () => null }: props) => {
     <div className="my-4 w-full max-w-3xl">
       <Formik
         initialValues={{ question: "", option: "" }}
-        validator={() => {}}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, isValid }: { isSubmitting: any; isValid: any }) => (
+        {({ isValid }: { isValid: any }) => (
           <Form className="flex h-full w-full flex-col gap-3 font-sans">
             <div className="form-group flex w-full flex-col">
               <label htmlFor="question" className="font-medium text-gray-600">

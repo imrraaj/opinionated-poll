@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { api } from "../utils/api";
 import { AiFillDelete } from "react-icons/ai";
 import { toast } from "react-hot-toast";
@@ -14,9 +14,9 @@ function MyPolls() {
 
   const deleteMutation = api.poll.deletePollById.useMutation({
     // on sucess invalidate queries to fetch new queries...
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Poll deleted sucessfully");
-      utils.poll.getAllPollsCreatedByUser.invalidate();
+      await utils.poll.getAllPollsCreatedByUser.invalidate();
     },
   });
 
@@ -52,7 +52,7 @@ function MyPolls() {
                 />
               </div>
               <div className="my-4 grid grid-cols-2 gap-4">
-                {poll.options?.map((opt, index) => {
+                {poll.options?.map((opt) => {
                   totalVote.current = totalVote.current + opt.vote_count;
                   return (
                     <div

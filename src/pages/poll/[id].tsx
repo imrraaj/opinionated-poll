@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { api } from "../../utils/api";
 
@@ -18,13 +17,11 @@ function VoteOnPoll() {
   const router = useRouter();
 
   const upVoteMutation = api.poll.upvote.useMutation({
-    onSuccess: (x) => {
+    onSuccess: () => {
       toast.success("Voted Sucessfully!!");
-      router.push(`result/${id}`);
     },
-    onError: (x) => {
+    onError: () => {
       toast.error("Voted Sucessfully!!");
-      console.log("ONERROR: ", x.data);
     },
   });
   if (isError) {
@@ -67,7 +64,7 @@ function VoteOnPoll() {
         </div>
 
         <div>
-          <Link href={`result/${query.id}`} className="underline">
+          <Link href={`result/${id}`} className="underline">
             See Results
           </Link>
         </div>

@@ -3,8 +3,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 export default function Document() {
   return (
     <Html>
-      <Head />
-      <head>
+      <Head>
         <meta
           name="description"
           content="A poll website built using T3 stack by Raj Patel"
@@ -27,7 +26,7 @@ export default function Document() {
           content="A poll website built using T3 stack by Raj Patel"
         />
         <meta name="twitter:image" content="https://s6.imgcdn.dev/BodXM.png" />
-      </head>
+      </Head>
       <body className="relative mx-auto max-w-[1024px] px-2">
         <Main />
         <NextScript />

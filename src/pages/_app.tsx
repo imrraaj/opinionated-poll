@@ -1,6 +1,6 @@
 import { type AppType } from "next/app";
 import { type Session } from "next-auth";
-import { SessionProvider, useSession, signIn, signOut } from "next-auth/react";
+import { SessionProvider, useSession, signIn } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import { api } from "../utils/api";
 import "../styles/globals.css";
@@ -54,7 +54,10 @@ function Login() {
       <div className="flex flex-col items-center justify-center">
         <p>Sign Via</p>
         <button
-          onClick={() => signIn("github")}
+          onClick={() => {
+            // eslint-disable @typescript-eslint/no-floating-promises
+            signIn("github");
+          }}
           className="my-2 flex items-center justify-center gap-2 rounded-md border-2 border-gray-100 border-transparent py-2 px-4 shadow-md ring-emerald-400 transition hover:ring-2"
         >
           <Image
