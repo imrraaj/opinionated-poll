@@ -55,8 +55,9 @@ function Login() {
         <p>Sign Via</p>
         <button
           onClick={() => {
-            // eslint-disable @typescript-eslint/no-floating-promises
-            signIn("github");
+            signIn("github")
+              .then((e) => console.log(e))
+              .catch((x) => console.error(x));
           }}
           className="my-2 flex items-center justify-center gap-2 rounded-md border-2 border-gray-100 border-transparent py-2 px-4 shadow-md ring-emerald-400 transition hover:ring-2"
         >

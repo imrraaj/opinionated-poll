@@ -14,8 +14,6 @@ function VoteOnPoll() {
     isLoading,
   } = api.poll.getPollsByIdCreatedByUser.useQuery(id);
 
-  const router = useRouter();
-
   const upVoteMutation = api.poll.upvote.useMutation({
     onSuccess: () => {
       toast.success("Voted Sucessfully!!");
