@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -14,27 +14,22 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String? // @db.Text
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                       String  @id @default(cuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String? // @db.Text
+    access_token             String? // @db.Text
+    refresh_token_expires_in Int?
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String? // @db.Text
+    session_state            String?
+    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
 }
@@ -55,6 +50,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Vote          Vote[]
 }
 
 model VerificationToken {
@@ -63,4 +59,32 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Poll {
+    id       String   @id @default(cuid())
+    question String
+    options  Option[]
+    Vote     Vote[]
+    ownerId  String
+}
+
+model Option {
+    id          Int     @id @default(autoincrement())
+    option_text String
+    vote_count  Int     @default(0)
+    Poll        Poll?   @relation(fields: [pollId], references: [id])
+    pollId      String?
+    Vote        Vote[]
+}
+
+model Vote {
+    userId   String
+    user     User   @relation(fields: [userId], references: [id])
+    VotedFor Int
+    option   Option @relation(fields: [VotedFor], references: [id])
+    pollId   String
+    poll     Poll   @relation(fields: [pollId], references: [id])
+
+    @@id([userId, VotedFor, pollId])
 }
