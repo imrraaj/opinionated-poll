@@ -5,7 +5,7 @@ import { Formik, Form } from "formik";
 import { FiPlus, FiX } from "react-icons/fi";
 import { api } from "../utils/api";
 import { toast } from "react-hot-toast";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface Poll {
   question: string;
@@ -13,6 +13,7 @@ interface Poll {
 }
 const Create: NextPage = () => {
   const { mutate: addMutation } = api.poll.addPoll.useMutation();
+  const router = useRouter();
   const onSubmit = (data: Poll) => {
     const id = toast.loading("Creating poll...");
     addMutation(
@@ -21,8 +22,13 @@ const Create: NextPage = () => {
         options: data.options,
       },
       {
-        onSuccess() {
+        onSuccess: ({ pollQuestion }) => {
           toast.success("Poll created successfully!", { id });
+          router
+            .push(`/poll/${pollQuestion.id}`)
+            .then((e) => console.log(e))
+            .catch((x) => console.error(x));
+          return;
         },
         onError() {
           toast.error("Failed to create a poll", { id });
@@ -36,12 +42,6 @@ const Create: NextPage = () => {
       <Head>
         <title>Opinionated Poll - Create A New Poll</title>
       </Head>
-      <Link
-        href="/"
-        className="absolute cursor-pointer font-semibold text-gray-500 underline"
-      >
-        ../create
-      </Link>
       <main className="my-8 flex flex-col items-center justify-center px-4">
         <h2 className="mt-16 text-4xl font-black text-gray-500">Create Poll</h2>
         <PollForm onSubmit={onSubmit} />
@@ -76,7 +76,7 @@ const PollForm = ({ onSubmit = () => null }: props) => {
         initialValues={{ question: "", option: "" }}
         onSubmit={handleSubmit}
       >
-        {({ isValid }: { isValid: any }) => (
+        {({ isValid }: { isValid: boolean }) => (
           <Form className="flex h-full w-full flex-col gap-3 font-sans">
             <div className="form-group flex w-full flex-col">
               <label htmlFor="question" className="font-medium text-gray-600">

@@ -24,12 +24,13 @@ export const pollRouter = createTRPCRouter({
     });
   }),
 
-  getPollsByIdCreatedByUser: protectedProcedure.input(String).query(async ({ ctx, input }) => {
+  getPollsByIdCreatedByUser: publicProcedure.input(String).query(async ({ ctx, input }) => {
 
     const poll = await ctx.prisma.poll.findFirst({
       select: {
         question: true,
         id: true,
+        ownerId: true,
         options: {
           select: {
             id: true,

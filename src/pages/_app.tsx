@@ -7,6 +7,8 @@ import "../styles/globals.css";
 import React from "react";
 import Image from "next/image";
 import NextNProgress from "nextjs-progressbar";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const MyApp: AppType<{ session: Session | null; auth: boolean }> = ({
   Component,
@@ -16,18 +18,22 @@ const MyApp: AppType<{ session: Session | null; auth: boolean }> = ({
   return (
     <SessionProvider session={session}>
       <NextNProgress />
-      {auth ? (
-        // Private Pages
-        <AuthGuard>
-          <>
-            <Component {...pageProps} />
-            <Toaster />
-          </>
-        </AuthGuard>
-      ) : (
-        // public page
-        <Component {...pageProps} />
-      )}
+      <main className="flex min-h-screen flex-col justify-between py-4">
+        <Navbar />
+        {auth ? (
+          // Private Pages
+          <AuthGuard>
+            <>
+              <Component {...pageProps} />
+            </>
+          </AuthGuard>
+        ) : (
+          // public page
+          <Component {...pageProps} />
+        )}
+        <Footer />
+      </main>
+      <Toaster />
     </SessionProvider>
   );
 };
@@ -52,7 +58,7 @@ function Login() {
         To continue using, please Sign in
       </h1>
       <div className="flex flex-col items-center justify-center">
-        <p>Sign Via</p>
+        <p>SignIn Via</p>
         <button
           onClick={() => {
             signIn("github")
@@ -68,6 +74,23 @@ function Login() {
             src="https://authjs.dev/img/providers/github.svg"
           />
           <span className="font-semibold">GitHub</span>
+        </button>
+
+        <button
+          onClick={() => {
+            signIn("google")
+              .then((e) => console.log(e))
+              .catch((x) => console.error(x));
+          }}
+          className="my-2 flex items-center justify-center gap-2 rounded-md border-2 border-gray-100 border-transparent py-2 px-4 shadow-md ring-emerald-400 transition hover:ring-2"
+        >
+          <Image
+            alt=""
+            width={32}
+            height={32}
+            src="https://authjs.dev/img/providers/google.svg"
+          />
+          <span className="font-semibold">Google</span>
         </button>
       </div>
     </main>

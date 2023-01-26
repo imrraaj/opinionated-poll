@@ -12,8 +12,7 @@ export default function Home() {
           Opinionated Poll
         </h1>
         <p className="text-shadow-lg mt-0 text-center text-gray-500">
-          create polls and ask others anything you want privately or publicly -
-          it&apos;s free!
+          create polls and ask others anything you want - it&apos;s free!
         </p>
         <div className="flex gap-4">
           <button className="my-4 rounded-md border-2 border-transparent bg-cyan-400 py-2 px-4 shadow-md transition hover:border-cyan-700">

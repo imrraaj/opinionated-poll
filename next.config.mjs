@@ -14,5 +14,9 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+  images: {
+    domains: ["api.dicebear.com", "authjs.dev"],
+    dangerouslyAllowSVG: true,
+  },
 };
 export default config;

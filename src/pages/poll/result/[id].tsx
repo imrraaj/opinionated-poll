@@ -38,6 +38,7 @@ function VoteOnPoll() {
         <title>Opinionated Poll | Results - {poll.question}</title>
       </Head>
       <div className="my-16 px-4">
+        <p className="text-xs font-semibold text-gray-400">Poll Result</p>
         <div className="flex items-center justify-between gap-2">
           <span className="text-2xl font-bold">{poll.question}</span>
         </div>

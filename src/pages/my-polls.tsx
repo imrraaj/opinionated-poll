@@ -32,7 +32,7 @@ function MyPolls() {
         <title>Opinionated Poll - All of Your Polls</title>
       </Head>
 
-      <div className="my-10">
+      <div className="my-10 mx-auto w-[720px]">
         <h1 className="text-center text-3xl font-black">Polls created by me</h1>
         {data.map((poll) => (
           <div
@@ -40,10 +40,10 @@ function MyPolls() {
             className="my-8 w-full rounded border-2 border-gray-600 p-4 shadow-lg transition duration-150 hover:scale-[1.01]"
           >
             <>
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-2xl font-bold underline">
+              <div className="flex items-center justify-between">
+                <p className="text-2xl font-bold transition hover:underline">
                   <Link href={`/poll/${poll.id}`}>{poll.question}</Link>
-                </span>
+                </p>
                 <AiFillDelete
                   className="cursor-pointer rounded-md text-2xl font-bold text-red-700"
                   onClick={() => {
@@ -56,11 +56,14 @@ function MyPolls() {
                   totalVote.current = totalVote.current + opt.vote_count;
                   return (
                     <div
-                      className="flex cursor-pointer justify-between rounded border-2 border-transparent bg-cyan-300 py-2 px-4 shadow-md transition hover:border-cyan-700"
+                      className="flex justify-between rounded border-2 border-transparent bg-cyan-300 py-2 px-4 shadow-md transition hover:border-cyan-700"
                       key={opt.id}
                     >
                       <p className="inline font-semibold ">{opt.option_text}</p>
-                      <p className="font-bold">{opt.vote_count}</p>
+                      <p className="font-bold">
+                        {opt.vote_count}{" "}
+                        {opt.vote_count == 1 ? "vote" : "votes"}
+                      </p>
                     </div>
                   );
                 })}
@@ -75,8 +78,8 @@ function MyPolls() {
 }
 
 export default MyPolls;
-// export const getStaticProps = () => {
-//   return {
-//     props: { auth: true },
-//   };
-// };
+export const getStaticProps = () => {
+  return {
+    props: { auth: true },
+  };
+};

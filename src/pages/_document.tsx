@@ -27,7 +27,7 @@ export default function Document() {
         />
         <meta name="twitter:image" content="https://s6.imgcdn.dev/BodXM.png" />
       </Head>
-      <body className="relative mx-auto max-w-[1024px] px-2">
+      <body className="mx-auto max-w-[1024px] px-2">
         <Main />
         <NextScript />
       </body>
