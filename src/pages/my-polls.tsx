@@ -32,7 +32,7 @@ function MyPolls() {
         <title>Opinionated Poll - All of Your Polls</title>
       </Head>
 
-      <div className="my-10 mx-auto w-[720px]">
+      <div className="my-10 mx-auto max-w-[720px]">
         <h1 className="text-center text-3xl font-black">Polls created by me</h1>
         {data.map((poll) => (
           <div
@@ -51,7 +51,7 @@ function MyPolls() {
                   }}
                 />
               </div>
-              <div className="my-4 grid grid-cols-2 gap-4">
+              <div className="my-4 grid gap-4 md:grid-cols-2">
                 {poll.options?.map((opt) => {
                   totalVote.current = totalVote.current + opt.vote_count;
                   return (
